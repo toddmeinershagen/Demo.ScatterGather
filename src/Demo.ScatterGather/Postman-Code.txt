@@ -1,0 +1,14 @@
+POST /api/PersonValidations HTTP/1.1
+Host: localhost:33129
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: f9ccf899-9aeb-3084-8104-4ae5a789730c
+
+{
+	FirstName: "Todd",
+	LastName: "Meinershagen",
+	EyeColor: "Green",
+	WeightInPounds: 95,
+	BirthDate: "1989-11-23T00:00:00-05:00"
+}
