@@ -11,7 +11,7 @@ namespace Demo.ScatterGather.Core
 {
     public class ServiceBusProvider
     {
-        public IBusControl GetBusWith<TConsumer>(IContext context, string queueName) where TConsumer : class, IConsumer<PersonValidationRequested>
+        public IBusControl GetBusWith<TConsumer>(IContext context, string queueName) where TConsumer : class, IConsumer
         {
             return GetBus(context, (cfg, host, workerLimit) =>
             {

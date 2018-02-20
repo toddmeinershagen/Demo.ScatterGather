@@ -10,36 +10,36 @@ using Microsoft.ServiceBus;
 
 namespace Demo.ScatterGather.Aggregator.Service.Controllers
 {
-    [Route("api/PersonValidations")]
-    public class PersonValidationsController : ApiController
+    [Route("api/ClaimValidations")]
+    public class ClaimValidationsController : ApiController
     {
         private readonly IBus _bus;
 
-        public PersonValidationsController(IBus bus)
+        public ClaimValidationsController(IBus bus)
         {
             _bus = bus;
         }
 
-        public async Task<IHttpActionResult> Post([FromBody] Person request)
+        public async Task<IHttpActionResult> Post([FromBody] Claim claim)
         {
             var requestId = Guid.NewGuid();
 
             var serviceNamespace = ConfigurationManager.AppSettings["Microsoft.ServiceBus.Namespace"];
             var requestTimeout = TimeSpan.FromSeconds(30);
 
-            var results = new List<PersonValidated>();
-            var validators = ConfigurationManager.AppSettings["PersonValidators"].Split(',');
+            var results = new List<ClaimValidated>();
+            var validators = ConfigurationManager.AppSettings["ClaimValidators"].Split(',');
 
             Parallel.ForEach(validators, validator =>
             {
                 var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace, $"CommonGround.Scrape.Service/{validator}");
-                var client = _bus.CreateRequestClient<PersonValidationRequested, PersonValidated>(serviceUri, requestTimeout);
-                var result = client.Request(new PersonValidationRequested {RequestId = requestId, Person = request}).Result;
+                var client = _bus.CreateRequestClient<ClaimValidationRequested, ClaimValidated>(serviceUri, requestTimeout);
+                var result = client.Request(new ClaimValidationRequested { RequestId = requestId, Claim = claim }).Result;
                 results.Add(result);
             });
 
             return await Task.FromResult(Created(Request.RequestUri + requestId.ToString(),
-                new PersonValidationResult { RequestId = requestId, Results = results }));
+                new ClaimValidationResult { RequestId = requestId, Results = results }));
         }
     }
 }

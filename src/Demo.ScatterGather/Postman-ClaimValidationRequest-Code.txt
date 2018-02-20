@@ -1,0 +1,20 @@
+POST /api/ClaimValidations HTTP/1.1
+Host: localhost:33129
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: aea6fbee-35fe-b8ec-4adc-c37b64d52422
+
+{
+	Patient: {
+		Birthdate: "1972-04-08T00:00:00",
+		Gender: "Male"
+	},
+	Services: [
+		{
+			Code: "71010",
+			CodeType: "CPT",
+			ServiceDate: "2018-02-15"
+		}
+	]
+}

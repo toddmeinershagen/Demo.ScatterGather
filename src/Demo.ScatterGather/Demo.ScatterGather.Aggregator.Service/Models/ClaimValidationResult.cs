@@ -4,14 +4,14 @@ using Demo.ScatterGather.Core.Events;
 
 namespace Demo.ScatterGather.Aggregator.Service.Models
 {
-    public class PersonValidationResult
+    public class ClaimValidationResult
     {
-        public PersonValidationResult()
+        public ClaimValidationResult()
         {
-            Results = new List<PersonValidated>();
+            Results = new List<ClaimValidated>();
         }
 
         public Guid RequestId { get; set; }
-        public List<PersonValidated> Results { get; set; }
+        public List<ClaimValidated> Results { get; set; }
     }
 }

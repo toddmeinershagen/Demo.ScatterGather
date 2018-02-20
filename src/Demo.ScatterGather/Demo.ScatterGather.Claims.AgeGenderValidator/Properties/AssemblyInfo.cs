@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Demo.ScatterGather.Aggregator")]
+[assembly: AssemblyTitle("Demo.ScatterGather.Claims.AgeGenderValidator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Demo.ScatterGather.Aggregator")]
+[assembly: AssemblyProduct("Demo.ScatterGather.Claims.AgeGenderValidator")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9b585ded-a1ac-46ac-8515-11dc72953e20")]
+[assembly: Guid("f3ec3014-a7fc-4db8-b17a-b90ee3e9a5d8")]
 
 // Version information for an assembly consists of the following four values:
 //
