@@ -107,13 +107,6 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
                 }
             }
 
-            /*
-            if (context.Message.Per.BirthDate > new DateTime(1980, 1, 1))
-            {
-                errors.Add($"Birthdate of {context.Message.Person.BirthDate.ToShortDateString()} should be greater than 1/1/1980.");
-            }
-            */
-
             context.Respond(new ClaimValidated
             {
                 ValidatorName = typeof(ClaimValidationRequestedConsumer).Namespace,
