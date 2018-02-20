@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
             DefaultRequestHeaders =
             {
                 {"SOAPAction", "http://medassets.com/ics/IMedNecService/GetAgeGenderRule"},
-                {"X-MedAssets-ICS-AuthToken", "123456789ABCDE"}
+                {"X-MedAssets-ICS-AuthToken", ConfigurationManager.AppSettings["IcsAuthToken"]}
             }
         };
 
