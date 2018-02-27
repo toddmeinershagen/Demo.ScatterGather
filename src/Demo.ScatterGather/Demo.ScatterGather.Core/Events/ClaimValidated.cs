@@ -3,6 +3,6 @@
     public class ClaimValidated
     {
         public string ValidatorName { get; set; }
-        public string[] Errors { get; set; }
+        public ClaimValidationError[] Errors { get; set; }
     }
 }

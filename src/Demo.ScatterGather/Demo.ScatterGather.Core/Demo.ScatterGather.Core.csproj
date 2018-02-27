@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="ConfigAppSettings.cs" />
     <Compile Include="Events\ClaimValidated.cs" />
+    <Compile Include="Events\ClaimValidationError.cs" />
     <Compile Include="Events\ClaimValidationRequested.cs" />
     <Compile Include="Events\PersonValidated.cs" />
     <Compile Include="Events\PersonValidationRequested.cs" />

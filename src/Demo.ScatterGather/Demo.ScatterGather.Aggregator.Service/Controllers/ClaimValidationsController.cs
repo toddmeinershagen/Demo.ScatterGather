@@ -30,12 +30,18 @@ namespace Demo.ScatterGather.Aggregator.Service.Controllers
             var results = new List<ClaimValidated>();
             var validators = ConfigurationManager.AppSettings["ClaimValidators"].Split(',');
 
-            Parallel.ForEach(validators, validator =>
+            await Task.Run(() =>
             {
-                var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace, $"CommonGround.Scrape.Service/{validator}");
-                var client = _bus.CreateRequestClient<ClaimValidationRequested, ClaimValidated>(serviceUri, requestTimeout);
-                var result = client.Request(new ClaimValidationRequested { RequestId = requestId, Claim = claim }).Result;
-                results.Add(result);
+                Parallel.ForEach(validators, validator =>
+                {
+                    var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace,
+                        $"CommonGround.Scrape.Service/{validator}");
+                    var client =
+                        _bus.CreateRequestClient<ClaimValidationRequested, ClaimValidated>(serviceUri, requestTimeout);
+                    var result = client.Request(new ClaimValidationRequested {RequestId = requestId, Claim = claim})
+                        .Result;
+                    results.Add(result);
+                });
             });
 
             return await Task.FromResult(Created(Request.RequestUri + requestId.ToString(),

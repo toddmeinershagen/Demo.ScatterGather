@@ -65,7 +65,10 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
 
         public async Task Consume(ConsumeContext<ClaimValidationRequested> context)
         {
-            var errors = new List<string>();
+            await Console.Out.WriteLineAsync($"Request received.for {typeof(ClaimValidationRequestedConsumer).FullName}.");
+
+            //var errors = new List<string>();
+            var errors = new List<ClaimValidationError>();
             var patient = context.Message.Claim.Patient;
             var services = context.Message.Claim.Services;
             const string dateFormat = "yyy-MM-dd";
@@ -74,8 +77,13 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
             {
                 if (service.CodeType == CodeType.Cpt)
                 {
-                    var soapRequest = string.Format(SoapRequestFormat, service.Code, patient.Birthdate.ToString(dateFormat),
-                        service.ServiceDate.ToString(dateFormat), patient.Gender, service.CodeType.ToString().ToUpper());
+                    var code = service.Code;
+                    var birthdate = patient.Birthdate.ToString(dateFormat);
+                    var serviceDate = service.ServiceDate.ToString(dateFormat);
+                    var codeType = service.CodeType.ToString().ToUpper();
+
+                    var soapRequest = string.Format(SoapRequestFormat, code, birthdate,
+                        serviceDate, patient.Gender, codeType);
                     var content = new StringContent(soapRequest, Encoding.UTF8, "text/xml");
 
                     var response = await Client.PostAsync("MedNecService.svc", content);
@@ -94,7 +102,8 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
 
                     if (ageIsValid == false)
                     {
-                        errors.Add(ageResult?.Element(nsa + "AgeRuleMessage")?.Value);
+                        var message = ageResult?.Element(nsa + "AgeRuleMessage")?.Value;
+                        errors.Add(new ClaimValidationError {Value = $"{{'Birthdate':'{birthdate}', 'ServiceDate':'{serviceDate}', 'Code':'{code}', 'CodeType':'{codeType}'}}", Message = message});
                     }
 
                     var genderResult = result.Element(nsa + "GenderEdit");
@@ -102,7 +111,8 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
 
                     if (genderIsValid == false)
                     {
-                        errors.Add(genderResult?.Element(nsa + "GenderRuleMessage")?.Value);
+                        var message = genderResult?.Element(nsa + "GenderRuleMessage")?.Value;
+                        errors.Add(new ClaimValidationError {Value = $"{{'Gender':'{patient.Gender}'}}", Message = message});
                     }
                 }
             }

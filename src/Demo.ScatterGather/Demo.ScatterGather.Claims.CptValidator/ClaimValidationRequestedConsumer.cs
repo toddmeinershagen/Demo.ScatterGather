@@ -45,7 +45,9 @@ namespace Demo.ScatterGather.Claims.CptValidator
 
         public async Task Consume(ConsumeContext<ClaimValidationRequested> context)
         {
-            var errors = new List<string>();
+            await Console.Out.WriteLineAsync($"Request received.for {typeof(ClaimValidationRequestedConsumer).FullName}.");
+
+            var errors = new List<ClaimValidationError>();
             var services = context.Message.Claim.Services;
 
             foreach (var service in services)
@@ -71,8 +73,9 @@ namespace Demo.ScatterGather.Claims.CptValidator
 
                     if (cptErrors != null)
                     {
-                        errors.Add(cptErrors.Descendants(nsb + "ICSError").First()?
-                            .Element(nsb + "Message")?.Value);
+                        var message = cptErrors.Descendants(nsb + "ICSError").First()?
+                            .Element(nsb + "Message")?.Value;
+                        errors.Add(new ClaimValidationError {Value = $"{{'Code':'{service.Code}}}'", Message = message});
                     }
                 }
             }
