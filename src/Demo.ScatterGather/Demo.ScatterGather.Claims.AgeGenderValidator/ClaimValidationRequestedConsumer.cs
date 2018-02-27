@@ -67,7 +67,6 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
         {
             await Console.Out.WriteLineAsync($"Request received.for {typeof(ClaimValidationRequestedConsumer).FullName}.");
 
-            //var errors = new List<string>();
             var errors = new List<ClaimValidationError>();
             var patient = context.Message.Claim.Patient;
             var services = context.Message.Claim.Services;
