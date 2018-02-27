@@ -45,8 +45,6 @@ namespace Demo.ScatterGather.Claims.CptValidator
 
         public async Task Consume(ConsumeContext<ClaimValidationRequested> context)
         {
-            await Console.Out.WriteLineAsync($"Request received.for {typeof(ClaimValidationRequestedConsumer).FullName}.");
-
             var errors = new List<ClaimValidationError>();
             var services = context.Message.Claim.Services;
 

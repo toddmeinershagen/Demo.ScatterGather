@@ -33,7 +33,8 @@ namespace Demo.ScatterGather.Core
             return GetBus(context, null);
         }
 
-        private IBusControl GetBus(IContext context, Action<IServiceBusBusFactoryConfigurator, IServiceBusHost, int> configureReceiveEndpoint = null)
+        private IBusControl GetBus(IContext context,
+            Action<IServiceBusBusFactoryConfigurator, IServiceBusHost, int> configureReceiveEndpoint = null)
         {
             var appSettings = context.GetInstance<IAppSettings>();
             var serviceNamespace = appSettings.Get("Microsoft.ServiceBus.Namespace", true);
@@ -42,8 +43,11 @@ namespace Demo.ScatterGather.Core
 
             var busControl = Bus.Factory.CreateUsingAzureServiceBus(cfg =>
             {
-                var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace, "CommonGround.Scrape.Service");
-                var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey", sharedAccessKey);
+                var serviceUri =
+                    ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace, "CommonGround.Scrape.Service");
+                var tokenProvider =
+                    TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                        sharedAccessKey);
 
                 var host = ServiceBusBusFactoryConfiguratorExtensions.Host(cfg, serviceUri, h =>
                 {
@@ -58,6 +62,9 @@ namespace Demo.ScatterGather.Core
 
                 configureReceiveEndpoint?.Invoke(cfg, host, workerLimit);
             });
+
+            var observer = new ReceiveObserver();
+            busControl.ConnectReceiveObserver(observer);
 
             return busControl;
         }

@@ -65,8 +65,6 @@ namespace Demo.ScatterGather.Claims.AgeGenderValidator
 
         public async Task Consume(ConsumeContext<ClaimValidationRequested> context)
         {
-            await Console.Out.WriteLineAsync($"Request received.for {typeof(ClaimValidationRequestedConsumer).FullName}.");
-
             var errors = new List<ClaimValidationError>();
             var patient = context.Message.Claim.Patient;
             var services = context.Message.Claim.Services;
