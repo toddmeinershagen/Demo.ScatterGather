@@ -34,12 +34,9 @@ namespace Demo.ScatterGather.Aggregator.Service.Controllers
             {
                 Parallel.ForEach(validators, validator =>
                 {
-                    var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace,
-                        $"CommonGround.Scrape.Service/{validator}");
-                    var client =
-                        _bus.CreateRequestClient<ClaimValidationRequested, ClaimValidated>(serviceUri, requestTimeout);
-                    var result = client.Request(new ClaimValidationRequested {RequestId = requestId, Claim = claim})
-                        .Result;
+                    var serviceUri = ServiceBusEnvironment.CreateServiceUri("sb", serviceNamespace, $"CommonGround.Scrape.Service/{validator}");
+                    var client = _bus.CreateRequestClient<ClaimValidationRequested, ClaimValidated>(serviceUri, requestTimeout);
+                    var result = client.Request(new ClaimValidationRequested {RequestId = requestId, Claim = claim}).Result;
                     results.Add(result);
                 });
             });
